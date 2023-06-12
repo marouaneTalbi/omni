@@ -17,10 +17,10 @@ export function VideoThumbnailCapture({ videoUrl, getImageUrl }) {
     const context = canvas.getContext('2d');
 
     video.addEventListener('loadedmetadata', () => {
-        const intervalInSeconds = 10; // Capture frames every 60 seconds
+        const intervalInSeconds = Math.ceil(video.duration / 10);; // Capture frames every 60 seconds
         let currentTime = 0;
+        // console.log(video.duration)
         const capturedImages = [];
-
         const captureFrame = () => {
         video.currentTime = currentTime;
         video.onseeked = () => {
@@ -96,7 +96,7 @@ export function VideoThumbnailCapture({ videoUrl, getImageUrl }) {
   return (
     <div>
       <video ref={videoRef} style={{ display: 'none' }}></video>
-      <canvas ref={canvasRef} width="320" height="240" style={{ display: 'none' }}></canvas>
+      <canvas ref={canvasRef}  style={{ display: 'none', width:'20%' }}></canvas>
       {/* <div style={{display:'flex', height:100, width:'100%', backgroundColor:'red'}}>
             {
                 image && <img src={image} alt="img" style={{height:'100%', width:'100%'}} />

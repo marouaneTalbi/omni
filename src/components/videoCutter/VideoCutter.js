@@ -10,6 +10,8 @@ export default function VideoCutter({video, getVideoCutterData}) {
   const [videoDuration, setVideoDuration] = useState(0);
   const [minValue, set_minValue] = useState(0);
   const [maxValue, set_maxValue] = useState();
+  const [max, set_max] = useState();
+
   const [image, setImg] = useState([]);
 
 
@@ -38,6 +40,7 @@ export default function VideoCutter({video, getVideoCutterData}) {
     const handleLoadedMetadata = () => {
       setVideoDuration(videoRef.current.duration)
       set_maxValue(videoRef.current.duration);
+      set_max(videoRef.current.duration)
     };
 
     if (videoRef.current) {
@@ -52,17 +55,15 @@ export default function VideoCutter({video, getVideoCutterData}) {
   }, [videoRef]);
 
   const handleCapture = (e) => {
-    console.log('///////////////////////',e)
     setImg(e);
     // return image
   };
 
-  // useEffect(() => {
-  //   console.log('VideoCutter',image)
-  // }, [])
+ 
 
   var footerStyle = {
     backgroundImage: `url(${image})`,
+    backgroundRepeat:'round',
     borderRadius:10,
     padding:0,
     width:'100%', 
@@ -71,14 +72,12 @@ export default function VideoCutter({video, getVideoCutterData}) {
   return (
     <>
       <video ref={videoRef} style={{display: 'none'}}></video>
-
       <div style={{display:'flex', flexDirection:'column', width:'100%'}}>
         <VideoThumbnailCapture videoUrl={video} getImageUrl={handleCapture} /> 
 
         <MultiRangeSlider
           ref={rangeSliderRef}
           style={footerStyle}
-          step={0.1}
           ruler={false}
           label={false}
           preventWheel={false}
@@ -88,8 +87,8 @@ export default function VideoCutter({video, getVideoCutterData}) {
           onInput={(e) => {
           handleInput(e);
           }}
+          max={max}
         />
-
       </div>
     </>
   );
